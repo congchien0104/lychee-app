@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 
-const API = 'http://localhost:8080/api'
+const API = 'https://lychee-backend.onrender.com/api'
 
 // ── Design tokens ──────────────────────────────────────────────────────────────
 const C = {

@@ -1,4 +1,4 @@
--- Products table
+-- ── Tạo bảng ─────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS products (
     id          SERIAL PRIMARY KEY,
     name        VARCHAR(255) NOT NULL,
@@ -42,89 +42,84 @@ CREATE TABLE IF NOT EXISTS reviews (
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- ── 50 sản phẩm vải thiều ────────────────────────────────────────────────────
+-- ── 50 sản phẩm vải thiều ─────────────────────────────────────────────────────
 INSERT INTO products (name, name_vn, description, price, unit, stock, category, image_emoji, featured) VALUES
 
--- FRESH ───────────────────────────────────────────────────────────────────────
-('Fresh Lychee Premium',      'Vải tươi cao cấp',          'Vải thiều Lục Ngạn loại đặc biệt, hái sáng giao chiều. Thịt dày, hạt nhỏ, ngọt thanh tự nhiên.',                     85000,  'kg',   150, 'fresh',     '🍈', TRUE),
-('Fresh Lychee Grade A',      'Vải tươi hạng A',           'Vải hạng A chọn lọc kỹ, kích cỡ đều, màu đỏ đẹp. Phù hợp biếu tặng hoặc ăn gia đình.',                              75000,  'kg',   200, 'fresh',     '🍈', FALSE),
-('Fresh Lychee Early Season', 'Vải tươi đầu mùa',          'Vải đầu mùa xuất hiện giữa tháng 5, hương thơm nồng nàn, vị ngọt dịu. Số lượng rất có hạn.',                         95000,  'kg',    60, 'fresh',     '🍈', TRUE),
-('Fresh Lychee Late Season',  'Vải tươi cuối mùa',         'Vải cuối vụ thịt mọng nước hơn, độ ngọt cao nhất. Đây là thời điểm vải ngon nhất trong năm.',                        80000,  'kg',    80, 'fresh',     '🍈', FALSE),
-('Fresh Lychee Whole Branch', 'Vải tươi cả cành',          'Vải để nguyên cành lá xanh, tươi như vừa hái. Thích hợp trưng bày và làm quà độc đáo.',                              110000, 'kg',    40, 'fresh',     '🍈', FALSE),
-('Lychee Seedless',           'Vải không hạt đặc sản',     'Giống vải đặc biệt không hạt, ăn cả miếng không cần nhả hạt. Hiếm và quý, sản lượng rất thấp.',                     150000, 'kg',    25, 'fresh',     '🍈', TRUE),
-('Baby Lychee',               'Vải bi nhỏ đặc sản',        'Giống vải bi đặc sản, trái nhỏ nhưng cực ngọt và thơm. Vị đậm đà hơn vải thường.',                                  90000,  'kg',    70, 'fresh',     '🍈', FALSE),
-('Organic Lychee VietGAP',    'Vải hữu cơ VietGAP',        'Canh tác hoàn toàn hữu cơ, không phân hóa học, không thuốc trừ sâu. Chứng nhận VietGAP.',                           130000, 'kg',    50, 'fresh',     '🍈', TRUE),
+-- 🌿 TƯƠI (10 sản phẩm)
+('Fresh Lychee Premium',     'Vải Tươi Cao Cấp',        'Vải thiều Lục Ngạn loại 1. Hái buổi sáng, giao trong ngày. Vỏ đỏ tươi, hạt nhỏ, thịt dày, ngọt thanh.',                                          85000,  'kg',   200, 'fresh',     '🍈', TRUE),
+('Fresh Lychee Standard',    'Vải Tươi Thường',          'Vải thiều Bắc Giang loại 2. Chất lượng tốt, giá hợp lý. Phù hợp mua số lượng lớn.',                                                               65000,  'kg',   350, 'fresh',     '🍈', FALSE),
+('Fresh Lychee Early Season','Vải Tươi Đầu Mùa',         'Vải đầu mùa tháng 5, hàng hiếm. Vị ngọt dịu, thơm đặc trưng. Số lượng có hạn mỗi ngày.',                                                         120000, 'kg',   80,  'fresh',     '🍈', TRUE),
+('Fresh Lychee Late Season', 'Vải Tươi Cuối Mùa',        'Vải cuối mùa tháng 7, đường tập trung cao nhất. Ngọt đậm, thơm lâu.',                                                                             95000,  'kg',   120, 'fresh',     '🍈', FALSE),
+('Lychee Bunch on Branch',   'Vải Cành Nguyên Cành',     'Vải còn nguyên cành lá xanh. Trưng bày đẹp mắt, độ tươi kéo dài 2–3 ngày. Lý tưởng làm quà.',                                                    150000, 'kg',   60,  'fresh',     '🌿', TRUE),
+('Seedless Lychee',          'Vải Không Hạt',            'Giống vải đặc biệt không hạt, thịt dày. Cực kỳ hiếm, chỉ có tại vườn nhà. Trải nghiệm ăn vải khác biệt.',                                        200000, 'kg',   40,  'fresh',     '🍈', TRUE),
+('Mini Lychee',              'Vải Bi Nhỏ',               'Giống vải bi hạt nhỏ tí, thịt dày hơn vải thường. Ngọt sắc, ăn không ngán. Được trẻ em yêu thích.',                                              90000,  'kg',   100, 'fresh',     '🍈', FALSE),
+('Organic Lychee',           'Vải Hữu Cơ',               'Vải canh tác hữu cơ 100%, không thuốc trừ sâu, không phân hóa học. Có chứng nhận VietGAP.',                                                       160000, 'kg',   75,  'fresh',     '🌱', TRUE),
+('Fresh Lychee 5kg Pack',    'Vải Tươi Túi 5kg',         'Túi vải tươi 5kg giá ưu đãi. Tiết kiệm 15% so với mua lẻ. Giao nguyên túi, đóng gói kỹ càng.',                                                    380000, 'túi', 50,  'fresh',     '🍈', FALSE),
+('Fresh Lychee 10kg Pack',   'Vải Tươi Thùng 10kg',      'Thùng 10kg cho gia đình đông người hoặc buôn bán nhỏ. Giá tốt nhất, giao nhanh.',                                                                  700000, 'thùng',30, 'fresh',     '📦', FALSE),
 
--- GIFT ────────────────────────────────────────────────────────────────────────
-('Gift Box 500g',             'Hộp quà vải 500g',          'Hộp quà nhỏ xinh 500g vải tươi. Thiết kế sang trọng, kèm túi đá giữ lạnh. Lý tưởng cho quà nhỏ.',                   85000,  'hộp',   80, 'gift',      '🎁', FALSE),
-('Gift Box 1kg Classic',      'Hộp quà vải 1kg Classic',   'Hộp 1kg vải cao cấp thiết kế cổ điển. Kèm thiệp cảm ơn viết tay và túi đá giữ lạnh.',                               120000, 'hộp',   60, 'gift',      '🎁', TRUE),
-('Gift Box 2kg Luxury',       'Hộp quà vải 2kg cao cấp',   'Hộp 2kg vải thiều loại đặc biệt. Hộp gỗ cao cấp, in laser, phù hợp biếu đối tác doanh nghiệp.',                     250000, 'hộp',   35, 'gift',      '🎁', TRUE),
-('Gift Box 3kg Premium',      'Hộp quà vải 3kg Premium',   'Hộp gỗ 3kg thiết kế sang trọng, kèm dao nhỏ bạc và khăn lau tay. Quà Tết, quà sếp lý tưởng.',                       320000, 'hộp',   30, 'gift',      '🎁', TRUE),
-('Gift Box 5kg VIP',          'Hộp quà vải 5kg VIP',       'Bộ quà VIP 5kg vải đặc biệt trong hộp gỗ khắc tên theo yêu cầu. Giao hàng tận nơi toàn quốc.',                       520000, 'hộp',   15, 'gift',      '🎁', TRUE),
-('Gift Set Duo',              'Bộ đôi quà tặng',           'Bộ 2 hộp nhỏ 500g vải tươi + 1 hũ mật ong vải 200g. Đóng gói nơ ruy băng, thích hợp biếu tặng.',                    195000, 'bộ',    25, 'gift',      '🎁', FALSE),
-('Gift Set Family',           'Bộ quà gia đình',           '2kg vải tươi + mứt vải 200g + nước ép vải 500ml. Bộ quà đầy đủ cho cả gia đình thưởng thức.',                        350000, 'bộ',    20, 'gift',      '🎁', FALSE),
-('Corporate Gift Box',        'Hộp quà doanh nghiệp',      '3kg vải cao cấp trong hộp in logo công ty theo yêu cầu. Đặt số lượng lớn có giá ưu đãi.',                            450000, 'hộp',   10, 'gift',      '🎁', FALSE),
+-- 🎁 QUÀ TẶNG (10 sản phẩm)
+('Gift Box 500g Premium',    'Hộp Quà Vải 500g Cao Cấp','Hộp quà 500g thiết kế sang trọng. In tên theo yêu cầu. Kèm thiệp chúc mừng viết tay. Giao tận nơi.',                                             85000,  'hộp',  80,  'gift',      '🎁', FALSE),
+('Gift Box 1kg Classic',     'Hộp Quà Vải 1kg',          'Hộp quà 1kg vải thiều cao cấp, đóng gói đẹp. Kèm túi đá lạnh giữ tươi. Phù hợp biếu tặng.',                                                      120000, 'hộp',  100, 'gift',      '🎁', TRUE),
+('Gift Box 2kg Deluxe',      'Hộp Quà Vải 2kg Deluxe',   'Hộp quà 2kg cao cấp, hộp gỗ tự nhiên. Bên trong lót vải nhung đỏ. Sang trọng, phù hợp biếu sếp, đối tác.',                                       250000, 'hộp',  60,  'gift',      '🎁', TRUE),
+('Gift Box 3kg Premium',     'Hộp Quà Vải 3kg Cao Cấp', 'Hộp quà 3kg sang trọng, thiết kế lụa đỏ. Vải hạng A tuyển chọn kỹ. Kèm thư pháp lời chúc.',                                                      320000, 'hộp',  45,  'gift',      '🎁', TRUE),
+('Gift Basket 2kg',          'Giỏ Quà Vải 2kg',          'Giỏ tre thủ công đan tay, chứa 2kg vải thiều. Kết hợp cùng mật ong vải và mứt vải. Quà tết ý nghĩa.',                                             380000, 'giỏ',  35,  'gift',      '🧺', TRUE),
+('Corporate Gift 5kg',       'Quà Doanh Nghiệp 5kg',     'Bộ quà tặng doanh nghiệp 5kg vải cao cấp. In logo công ty, kèm brochure. Giảm thêm 10% cho đơn 20 hộp.',                                          550000, 'hộp',  25,  'gift',      '🏢', FALSE),
+('Gift Set Lychee Trio',     'Bộ Quà 3 Trong 1',         'Combo: 500g vải tươi + mứt vải 200g + mật ong vải 150g. Hộp quà thiết kế đẹp, tặng Tết/sinh nhật.',                                              280000, 'set',  40,  'gift',      '🎀', FALSE),
+('Wedding Favor Box',        'Hộp Quà Cưới Vải Thiều',   'Hộp quà mini 200g cho tiệc cưới, in tên cô dâu chú rể. Đặt số lượng từ 50 hộp. Giao trước ngày cưới 3 ngày.',                                     45000,  'hộp',  200, 'gift',      '💍', FALSE),
+('Tet Premium Box',          'Hộp Quà Tết Vải Cao Cấp',  'Hộp quà Tết đặc biệt: 1kg vải sấy + rượu vải mini + mật ong vải. Hộp thiết kế phong thủy đỏ vàng.',                                              450000, 'hộp',  30,  'gift',      '🧧', FALSE),
+('Teacher Day Gift',         'Quà Tặng Thầy Cô',         'Bộ quà Ngày Nhà Giáo: hộp vải 1kg + túi trà vải thiều + thiệp in sẵn. Giao tận trường.',                                                          180000, 'set',  50,  'gift',      '📚', FALSE),
 
--- DRIED ───────────────────────────────────────────────────────────────────────
-('Dried Lychee Original',     'Vải sấy truyền thống',      'Vải sấy theo công thức truyền thống, không chất bảo quản. Dẻo ngọt tự nhiên, ăn vặt tuyệt vời.',                     95000,  '200g', 200, 'dried',     '🍂', FALSE),
-('Dried Lychee Sugar-Free',   'Vải sấy không đường',       'Vải sấy hoàn toàn không thêm đường. Ngọt tự nhiên từ trái vải. Phù hợp người ăn kiêng và tiểu đường.',               110000, '200g', 150, 'dried',     '🍂', FALSE),
-('Dried Lychee Crispy',       'Vải sấy giòn chân không',   'Vải sấy giòn tan bằng công nghệ sấy chân không. Giữ nguyên hương vị và màu sắc tươi sáng.',                          120000, '150g', 180, 'dried',     '🍂', TRUE),
-('Dried Lychee Traditional',  'Vải sấy có hạt',            'Vải sấy nguyên hạt theo phong cách truyền thống. Hương thơm đặc trưng quyến rũ.',                                    85000,  '250g', 120, 'dried',     '🍂', FALSE),
-('Dried Lychee Bulk 1kg',     'Túi vải sấy 1kg',           'Túi lớn 1kg vải sấy tiết kiệm, phù hợp gia đình đông người hoặc làm quà số lượng nhiều.',                            380000, '1kg',   60, 'dried',     '🍂', FALSE),
-('Lychee Chips Snack',        'Chips vải ăn vặt',          'Vải thiều thái lát mỏng sấy giòn, đóng gói túi snack tiện lợi. Ăn vặt lành mạnh cho cả nhà.',                        65000,  '80g',  250, 'dried',     '🍂', FALSE),
+-- 🍂 SẤY KHÔ (8 sản phẩm)
+('Dried Lychee Classic',     'Vải Sấy Khô Truyền Thống', 'Vải sấy khô bằng phương pháp truyền thống, không chất bảo quản. Dai ngọt tự nhiên. Để được 6 tháng.',                                             95000,  '200g', 300, 'dried',     '🍂', FALSE),
+('Dried Lychee Crispy',      'Vải Sấy Giòn',             'Vải sấy giòn bằng công nghệ sấy lạnh. Giòn tan, ngọt nhẹ, không mất chất dinh dưỡng. Ăn vặt sức khỏe.',                                          110000, '150g', 200, 'dried',     '🍂', TRUE),
+('Dried Lychee 500g',        'Vải Sấy Túi 500g',         'Túi lớn 500g vải sấy khô, tiết kiệm. Đóng gói zip-lock giữ độ giòn. Phù hợp gia đình và văn phòng.',                                              200000, '500g', 150, 'dried',     '🍂', FALSE),
+('Lychee Trail Mix',         'Hỗn Hợp Trái Cây Vải',     'Hỗn hợp vải sấy + hạt điều + hạnh nhân + nho khô. Snack dinh dưỡng cho dân văn phòng.',                                                           135000, '200g', 120, 'dried',     '🥗', FALSE),
+('Dried Lychee Sugar Coated','Vải Sấy Phủ Đường',        'Vải sấy phủ lớp đường mỏng, đóng thành viên tròn đẹp. Ăn vặt dịp lễ tết, làm quà nhỏ xinh.',                                                      85000,  '150g', 180, 'dried',     '🍬', FALSE),
+('Lychee Chips',             'Chip Vải',                  'Vải sấy lát mỏng kiểu chip, giòn rụm. Vị ngọt chua nhẹ tự nhiên. Không chiên, không dầu mỡ.',                                                     90000,  '100g', 160, 'dried',     '🍟', FALSE),
+('Dried Lychee Gift Tin',    'Hộp Thiếc Vải Sấy',        'Vải sấy đóng hộp thiếc sang trọng, 300g. Hộp có thể tái sử dụng. Quà tặng ý nghĩa.',                                                              180000, 'hộp',  90,  'dried',     '🥫', FALSE),
+('Organic Dried Lychee',     'Vải Sấy Hữu Cơ',           'Vải hữu cơ VietGAP sấy khô. Không đường, không chất bảo quản. Phù hợp người ăn kiêng, tiểu đường.',                                               150000, '150g', 80,  'dried',     '🌿', FALSE),
 
--- PROCESSED ───────────────────────────────────────────────────────────────────
-('Lychee Jam Classic',        'Mứt vải truyền thống',      'Mứt vải nấu thủ công từ vải tươi và đường mía. Không phẩm màu, không chất bảo quản. Hũ 250g.',                        75000,  'hũ',    80, 'processed', '🍯', FALSE),
-('Lychee Jam Low Sugar',      'Mứt vải ít đường',          'Mứt vải giảm 50% đường so với truyền thống. Vị chua ngọt cân bằng, tốt cho sức khỏe.',                               85000,  'hũ',    60, 'processed', '🍯', FALSE),
-('Lychee Jam Rose',           'Mứt vải hoa hồng',          'Mứt vải pha hương hoa hồng tự nhiên. Màu hồng tươi, mùi thơm dịu. Phết bánh mì tuyệt hảo.',                         90000,  'hũ',    45, 'processed', '🍯', FALSE),
-('Lychee Honey Raw',          'Mật ong vải thô',           'Mật ong hoa vải nguyên chất, chưa qua tiệt trùng. Màu vàng nhạt, hương thơm hoa vải đặc trưng.',                     145000, '250g',  60, 'processed', '🍯', TRUE),
-('Lychee Honey Premium',      'Mật ong vải cao cấp',       'Mật ong hoa vải chuẩn VietGAP. Lọ thủy tinh sang trọng, nắp gỗ. Quà tặng sức khỏe ý nghĩa.',                        180000, '300g',  40, 'processed', '🍯', FALSE),
-('Lychee Syrup',              'Siro vải đặc',              'Siro vải đậm đặc tự nhiên. Pha nước uống, làm cocktail, trang trí bánh kem. Chai 500ml.',                             95000,  '500ml', 70, 'processed', '🍯', FALSE),
-('Lychee Vinegar',            'Giấm vải lên men',          'Giấm lên men từ vải thiều tươi. Vị chua thanh dịu, dùng trộn salad hoặc pha nước uống giải độc.',                    85000,  '300ml', 55, 'processed', '🍯', FALSE),
-('Lychee Dipping Sauce',      'Tương chấm vải',            'Sốt vải ngọt cay đặc biệt, dùng chấm hải sản, thịt nướng. Công thức gia truyền 3 đời.',                              70000,  '200g',  90, 'processed', '🍯', FALSE),
-('Lychee Powder',             'Bột vải sấy phun',          'Bột vải sấy phun công nghệ cao. Hòa tan nhanh, dùng làm bánh, kem, nước uống. Túi 100g.',                            120000, '100g',  80, 'processed', '🍯', FALSE),
+-- 🍯 CHẾ BIẾN (10 sản phẩm)
+('Lychee Jam 250g',          'Mứt Vải 250g',             'Mứt vải nấu thủ công từ vải tươi Bắc Giang. Không chất bảo quản, ngọt tự nhiên. Ăn kèm bánh mì, bánh quy.',                                       75000,  'hũ',   120, 'processed', '🍯', FALSE),
+('Lychee Jam 500g',          'Mứt Vải 500g',             'Mứt vải hũ lớn 500g cho gia đình. Công thức ít đường, hương vị đậm đà. Bảo quản tủ lạnh sau khi mở.',                                             130000, 'hũ',   80,  'processed', '🍯', FALSE),
+('Lychee Honey 250g',        'Mật Ong Hoa Vải 250g',     'Mật ong hoa vải thiều nguyên chất, thu hoạch tháng 4–5. Màu vàng nhạt, thơm hoa vải. Không pha trộn.',                                            145000, 'hũ',   100, 'processed', '🍯', TRUE),
+('Lychee Honey 500g',        'Mật Ong Hoa Vải 500g',     'Hũ lớn 500g mật ong hoa vải. Giảm 10% so với 2 hũ nhỏ. Bao bì hộp gỗ sang trọng.',                                                               260000, 'hũ',   60,  'processed', '🍯', FALSE),
+('Lychee Vinegar',           'Giấm Vải',                  'Giấm lên men từ vải thiều tươi, ủ 12 tháng. Vị chua dịu, thơm, dùng pha salad hoặc uống sức khỏe.',                                               85000,  '300ml',70,  'processed', '🍶', FALSE),
+('Lychee Syrup',             'Siro Vải',                  'Siro vải đặc nguyên chất, pha 1:10 với nước. Dùng làm đồ uống, pha chế cocktail, làm bánh.',                                                       95000,  '500ml',90,  'processed', '🧴', FALSE),
+('Lychee Paste',             'Bột Nhuyễn Vải',            'Bột nhuyễn vải đông lạnh IQF, tiện lợi làm bánh, kem, smoothie. Túi 1kg.',                                                                          120000, 'túi',  60,  'processed', '🥣', FALSE),
+('Lychee Candy',             'Kẹo Vải',                   'Kẹo mềm vị vải thiều, không phẩm màu nhân tạo. Làm từ vải thiều cô đặc tự nhiên. Hộp 200g.',                                                      65000,  'hộp',  150, 'processed', '🍬', FALSE),
+('Lychee Tea',               'Trà Vải Thiều',             'Trà hoa vải sấy khô, pha trà thơm thanh mát. Túi 50g pha được 20 ấm trà. Tốt cho tiêu hóa.',                                                      70000,  '50g',  110, 'processed', '🍵', FALSE),
+('Lychee Chocolate',         'Socola Nhân Vải',           'Socola đen 70% cacao nhân mứt vải. Kết hợp đắng – ngọt độc đáo. Hộp 12 viên làm thủ công.',                                                       120000, 'hộp',  65,  'processed', '🍫', FALSE),
 
--- BEVERAGE ────────────────────────────────────────────────────────────────────
-('Lychee Wine 500ml',         'Rượu vải 500ml',            'Rượu vải truyền thống 12% ABV. Lên men tự nhiên, không pha cồn công nghiệp. Hương thơm quyến rũ.',                    180000, '500ml', 40, 'beverage',  '🍷', TRUE),
-('Lychee Wine 750ml',         'Rượu vải 750ml',            'Chai rượu vải 750ml phù hợp tiệc tùng, biếu tặng. Nút bần sang trọng, nhãn thiết kế thủ công.',                      260000, '750ml', 25, 'beverage',  '🍷', FALSE),
-('Lychee Wine Aged Oak',      'Rượu vải ủ thùng gỗ sồi',  'Rượu vải ủ 12 tháng trong thùng gỗ sồi. Màu vàng amber đẹp, hương phức hợp. Giới hạn 100 chai/năm.',                 420000, '500ml', 12, 'beverage',  '🍷', TRUE),
-('Lychee Juice 1L',           'Nước ép vải 1L',            'Nước ép vải tươi nguyên chất 100%, không đường, không nước. Thanh nhiệt, giải khát tức thì.',                         85000,  '1L',   100, 'beverage',  '🥤', FALSE),
-('Lychee Juice Can 330ml',    'Nước ép vải lon 330ml',     'Lon nước ép vải tiện lợi 330ml. Giữ lạnh ngon hơn. Thích hợp mang theo khi đi làm, đi học.',                         35000,  '330ml', 300, 'beverage',  '🥤', FALSE),
-('Lychee Sparkling Water',    'Nước soda vải có ga',       'Nước có gas hương vải tự nhiên. Ít calo, không đường. Thức uống giải khát thời thượng.',                              45000,  '330ml', 200, 'beverage',  '🥤', FALSE),
-('Lychee Flower Tea',         'Trà hoa vải',               'Túi trà hoa vải khô pha nóng hoặc lạnh. Hương thơm dịu nhẹ, thư giãn tinh thần. Hộp 20 túi.',                        65000,  'hộp',  120, 'beverage',  '🍵', FALSE),
-('Lychee Kombucha',           'Kombucha vải men vi sinh',  'Trà lên men kombucha hương vải. Giàu men vi sinh, tốt cho đường ruột. Chai 350ml.',                                   75000,  '350ml',  80, 'beverage',  '🍵', FALSE),
-('Lychee Smoothie Powder',    'Bột sinh tố vải sấy lạnh',  'Bột sinh tố vải thiều sấy lạnh. Chỉ cần thêm nước hoặc sữa là có ngay ly sinh tố. Túi 200g.',                        95000,  '200g',  90, 'beverage',  '🥤', FALSE),
+-- 🍷 ĐỒ UỐNG (7 sản phẩm)
+('Lychee Wine 500ml',        'Rượu Vải 500ml',            'Rượu vải ủ truyền thống, 12% ABV. Hương vải thơm nồng, vị ngọt dịu. Thích hợp uống lạnh mùa hè.',                                                180000, 'chai',  55,  'beverage',  '🍷', TRUE),
+('Lychee Wine 750ml',        'Rượu Vải 750ml',            'Chai rượu vải 750ml sang trọng, dán nhãn đẹp. Ủ 18 tháng, hương vị phức hợp. Quà biếu lịch sự.',                                                  250000, 'chai',  40,  'beverage',  '🍷', FALSE),
+('Lychee Sparkling Water',   'Nước Có Gas Vải',           'Nước khoáng có gas hương vải tự nhiên. Không đường, không calo. Lon 330ml.',                                                                         18000,  'lon',   300, 'beverage',  '🥤', FALSE),
+('Lychee Juice 1L',          'Nước Ép Vải 1L',            'Nước ép vải nguyên chất, không đường thêm, không chất bảo quản. Hộp 1 lít, bảo quản lạnh.',                                                       85000,  'hộp',  80,  'beverage',  '🧃', FALSE),
+('Lychee Smoothie Pack',     'Gói Sinh Tố Vải',           'Hỗn hợp vải + dừa + gừng đông lạnh sẵn. Cho vào máy xay là xong. Gói 4 phần dùng.',                                                               95000,  'gói',   60,  'beverage',  '🥤', FALSE),
+('Lychee Kombucha',          'Kombucha Vải',              'Trà lên men kombucha vị vải thiều. Tốt cho đường ruột, giàu probiotic. Chai 350ml.',                                                                55000,  'chai',  90,  'beverage',  '🫧', FALSE),
+('Lychee Liqueur',           'Rượu Mùi Vải',              'Rượu mùi vải 25% ABV, màu hồng đẹp. Uống thẳng, pha cocktail hoặc làm bánh. Chai 350ml.',                                                          220000, 'chai',  35,  'beverage',  '🍸', FALSE),
 
--- FROZEN ──────────────────────────────────────────────────────────────────────
-('Frozen Lychee Peeled 500g', 'Vải đông lạnh bóc vỏ 500g','Vải đã bóc vỏ, bỏ hạt, cấp đông IQF. Dùng ngay cho sinh tố, chè, dessert. Túi zip 500g.',                           70000,  '500g', 120, 'frozen',    '❄️', FALSE),
-('Frozen Lychee Whole 1kg',   'Vải đông lạnh nguyên trái', 'Vải nguyên trái cấp đông nhanh. Rã đông là tươi ngon như vừa hái. Túi zip tiện lợi 1kg.',                            110000, '1kg',   80, 'frozen',    '❄️', FALSE),
-('Frozen Lychee Puree',       'Nhuyễn vải đông lạnh',      'Purée vải thiều xay mịn cấp đông. Chuyên dùng làm kem, mousse, sorbet, bánh. Hộp 500g.',                             90000,  '500g',  60, 'frozen',    '❄️', FALSE),
-('Lychee Ice Cream',          'Kem vải thiều thủ công',    'Kem vải thiều làm thủ công từ vải tươi và kem tươi nguyên chất. Không màu nhân tạo. Hộp 400ml.',                     85000,  '400ml',  70, 'frozen',    '🍦', TRUE),
-('Lychee Sorbet Vegan',       'Sorbet vải thuần chay',     'Sorbet vải thuần chay, không sữa, không gluten. Giải nhiệt hoàn hảo ngày hè. Hộp 350ml.',                            75000,  '350ml',  55, 'frozen',    '🍦', FALSE),
-('Frozen Lychee Dessert Kit', 'Bộ nguyên liệu chè vải',   'Bộ nguyên liệu làm chè vải: vải đông lạnh + thạch dừa + hạt chia. Đủ cho 4 người.',                                  150000, 'hộp',   40, 'frozen',    '❄️', FALSE),
+-- ❄️ ĐÔNG LẠNH (5 sản phẩm)
+('Frozen Lychee 500g',       'Vải Đông Lạnh 500g',        'Vải đã bóc vỏ, bỏ hạt, đông lạnh IQF. Giữ nguyên hương vị tươi. Dùng làm kem, sinh tố, bánh.',                                                   70000,  'túi',  180, 'frozen',    '❄️', FALSE),
+('Frozen Lychee 1kg',        'Vải Đông Lạnh 1kg',         'Túi lớn 1kg vải đông lạnh IQF tiện lợi. Hạn dùng 12 tháng. Tiết kiệm hơn túi nhỏ.',                                                              125000, 'túi',  120, 'frozen',    '❄️', FALSE),
+('Frozen Lychee Sorbet',     'Kem Sorbet Vải',             'Kem sorbet vải thiều làm từ 100% vải tươi. Không chất béo, không sữa. Hộp 500ml 4 phần dùng.',                                                     85000,  'hộp',  70,  'frozen',    '🍧', TRUE),
+('Frozen Lychee Pulp',       'Thịt Vải Đông Lạnh',        'Thịt vải xay nhuyễn đông lạnh, túi 500g. Tiện dụng cho quán cafe, tiệm bánh làm nguyên liệu.',                                                     90000,  'túi',  95,  'frozen',    '❄️', FALSE),
+('Lychee Ice Cream Bar',     'Kem Que Vải Thiều',          'Kem que vải thiều handmade, hộp 6 cây. Nhân thịt vải thật. Không phẩm màu, hương liệu nhân tạo.',                                                  95000,  'hộp',  55,  'frozen',    '🍦', FALSE);
 
--- OTHER ───────────────────────────────────────────────────────────────────────
-('Lychee Seedling 2 Years',   'Cây giống vải 2 tuổi',      'Cây giống vải thiều Lục Ngạn 2 năm tuổi, chiết cành từ cây mẹ cho năng suất cao. Sẵn sàng trồng.',                  250000, 'cây',   30, 'other',     '🌱', FALSE),
-('Lychee Bonsai',             'Vải bonsai cảnh',           'Cây vải trồng chậu kiểng, có trái mini đỏ đẹp. Trang trí ban công, phòng khách. Ý nghĩa phong thủy.',                650000, 'chậu',  10, 'other',     '🌱', TRUE),
-('Lychee Skincare Set',       'Bộ dưỡng da chiết xuất vải','Bộ serum + kem dưỡng chiết xuất từ hạt vải thiều. Chống oxy hóa, làm sáng da. Thương hiệu VảiBeauty.',              450000, 'bộ',    25, 'other',     '✨', FALSE),
-('Lychee Scented Candle',     'Nến thơm hương vải',        'Nến thơm hương vải thiều tự nhiên làm từ sáp đậu nành. Thư giãn tâm trí, thơm cả phòng. 150g.',                     95000,  'hũ',    50, 'other',     '🕯️', FALSE),
-('Dried Lychee Blossom',      'Hoa vải sấy khô',           'Hoa vải sấy khô dùng trang trí, pha trà hoa hoặc làm xông hơi. Hương thơm tinh tế, nhẹ nhàng.',                     55000,  '50g',  100, 'other',     '🌸', FALSE),
-('Lychee Recipe Book',        'Sách 50 công thức từ vải',  '50 công thức chế biến món ăn và đồ uống từ vải thiều. Ảnh đẹp, hướng dẫn chi tiết. Bìa cứng.',                       150000, 'cuốn',  30, 'other',     '📚', FALSE);
-
--- ── Đánh giá sản phẩm ────────────────────────────────────────────────────────
+-- ── Đánh giá mẫu ─────────────────────────────────────────────────────────────
 INSERT INTO reviews (product_id, author, rating, comment) VALUES
-(1,  'Nguyễn Thị Lan',    5, 'Vải tươi cực ngon, giao hàng nhanh, đóng gói cẩn thận. Sẽ ủng hộ lần sau!'),
-(1,  'Trần Văn Minh',     5, 'Đặt lần 2 rồi, chất lượng ổn định. Vải hạt nhỏ, thịt dày, ngọt lắm.'),
-(1,  'Lê Hoàng Nam',      4, 'Vải ngon, giá hợp lý. Giao hàng có hơi chậm nhưng vải vẫn tươi tốt.'),
-(3,  'Phạm Thu Hà',       5, 'Vải đầu mùa ngon tuyệt vời! Hương thơm đặc biệt, chưa mùa nào ngon như vậy.'),
-(10, 'Hoàng Minh Tuấn',   5, 'Hộp quà đẹp lắm, mua biếu sếp được khen nhiều. Sẽ đặt thêm cho dịp Tết.'),
-(11, 'Vũ Thị Hoa',        4, 'Hộp gỗ sang trọng, vải bên trong chất lượng tốt. Giao hàng đúng hẹn.'),
-(19, 'Bùi Quốc Hùng',     5, 'Vải sấy giòn ngon không tưởng! Cả nhà nghiền, đặt túi 1kg cho tiết kiệm.'),
-(18, 'Ngô Thị Mai',       5, 'Vải sấy không đường mà vẫn ngọt tự nhiên. Tốt cho sức khỏe, ăn không lo béo.'),
-(23, 'Đinh Văn Long',     5, 'Mứt vải ngon hơn mứt ngoài hàng nhiều. Ăn với bánh mì buổi sáng thì tuyệt.'),
-(26, 'Lý Thị Bình',       4, 'Mật ong vải thơm, màu đẹp. Hòa nước ấm uống sáng rất tốt cho họng.'),
-(31, 'Phan Văn Đức',      5, 'Rượu vải thơm nhẹ, uống ngọt và mát. Mang ra ngoài bạn bè ai cũng thích.'),
-(35, 'Tô Thị Ngọc',       4, 'Nước ép vải nguyên chất ngon, không ngọt quá. Mua cho cả nhà uống hàng ngày.'),
-(40, 'Cao Minh Khoa',     5, 'Kem vải ngon xuất sắc! Vị vải rõ rệt, không bị ngọt giả tạo. Sẽ đặt thêm.'),
-(42, 'Hà Thị Thu',        5, 'Sorbet vải nhẹ mát, hoàn hảo cho mùa hè TP.HCM. Cả nhà đều mê.'),
-(48, 'Trương Văn Bảo',    4, 'Nến thơm hương vải rất dễ chịu, thắp lên phòng thơm ngát. Mua thêm lần 2 rồi.');
+(1, 'Nguyễn Thị Lan',    5, 'Vải ngon tuyệt vời! Tươi, ngọt, hạt nhỏ. Giao hàng siêu nhanh, đóng gói cẩn thận.'),
+(1, 'Trần Văn Minh',     5, 'Đặt lần thứ 3 rồi. Chất lượng ổn định, không bao giờ thất vọng. Vải đẹp, đỏ tươi.'),
+(1, 'Lê Thị Hoa',        4, 'Vải ngon, giao nhanh. Trừ 1 sao vì có vài quả nhỏ hơn mong đợi nhưng vị vẫn ngon.'),
+(3, 'Phạm Quang Huy',    5, 'Vải đầu mùa hiếm lắm! Mua được 1kg thôi mà ngon hơn hẳn vải thường. Sẽ đặt sớm năm sau.'),
+(6, 'Hoàng Thị Mai',     5, 'Vải không hạt lần đầu ăn, ngạc nhiên ghê! Thịt dày, ngọt đậm. Hơi đắt nhưng xứng đáng.'),
+(12, 'Vũ Thị Thanh',     5, 'Mua hộp quà biếu sếp, sếp khen quà sang. Đóng gói đẹp, kèm thiệp viết tay rất tình cảm.'),
+(13, 'Đặng Văn Long',    5, 'Hộp gỗ đẹp lắm, giữ làm đựng đồ được. Vải bên trong tươi ngon, sếp rất thích.'),
+(20, 'Bùi Thị Ngọc',     4, 'Kẹo vải ngon, không quá ngọt. Trẻ con thích mê. Sẽ mua thêm dịp Tết.'),
+(21, 'Cao Minh Tuấn',    5, 'Rượu vải thơm lắm! Uống lạnh mùa hè tuyệt. Mua tặng ba, ba khen ngon hơn rượu ngoài tiệm.'),
+(30, 'Ngô Thị Hương',    5, 'Mứt vải ngon, ngọt thanh không bị ngọt gắt. Ăn với bánh mì bơ tuyệt vời. Mua hũ 500g cho tiết kiệm.'),
+(31, 'Phan Văn Đức',     4, 'Mật ong hoa vải thơm lắm, khác hẳn mật ong thường. Chắc chắn mua lại.'),
+(37, 'Lý Thị Kim',       5, 'Nước ép vải ngon, uống vào là biết ngay là vải thật chứ không phải hương liệu.'),
+(41, 'Trịnh Công Sơn',   5, 'Vải đông lạnh dùng làm sinh tố rất tiện, mua cả thùng dự trữ. Chất lượng tốt hơn siêu thị.'),
+(43, 'Mai Thị Xuân',     5, 'Kem sorbet vải ngon mát, vị thanh không bị ngọt quá. Cả nhà đều thích. Mua hộp 2 là hết ngay!');

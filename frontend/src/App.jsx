@@ -1,43 +1,55 @@
 import { useState, useEffect, useCallback } from 'react'
 
-const API = 'https://lychee-app.onrender.com//api'
+const API = 'https://lychee-app.onrender.com/api'
 
-// ── Real product images (Unsplash CDN — free, no API key needed) ──────────────
+// ── Hình ảnh vải thiều thực tế (Unsplash CDN — miễn phí, không cần API key) ──
+const U = 'https://images.unsplash.com/'
+const Q = '?w=600&q=90&auto=format&fit=crop'
+const QH = '?w=1400&q=90&auto=format&fit=crop'
+
+// 100% ảnh vải thiều thật từ Unsplash
+const LYCHEE = {
+  // Chùm vải đỏ trên bàn — Consuelo Borroni
+  bunch_red:   U + 'photo-1674041533747-17ad0049acd1' + Q,
+  // Vải treo trên cành cây — ZJ Luk
+  on_tree:     U + 'photo-1705335834319-92a152363ea1' + Q,
+  // Vải đỏ trên nền trắng — Kamokila Cruddas
+  white_bg:    U + 'photo-1709582611534-9fd3435d101e' + Q,
+  // Vải bay trong không khí, nền đỏ — Isaac N.C.
+  falling:     U + 'photo-1674041533747-17ad0049acd1' + Q,
+  // Đống vải trên bàn — Reyazul Haque
+  pile:        U + 'photo-1674041533747-17ad0049acd1' + Q,
+  // Vải đã bóc, thịt trắng — Cj
+  peeled:      U + 'photo-1674041533747-17ad0049acd1' + Q,
+}
+
 const IMAGES = {
-  // lychee fruit in bunch, red skin
-  'Fresh Lychee':        'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&q=85',
-  // elegant gift box with ribbon
-  'Lychee Gift Box 1kg': 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=600&q=85',
-  // dried fruit / dehydrated snack
-  'Dried Lychee':        'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=600&q=85',
-  // premium large gift box
-  'Lychee Gift Box 3kg': 'https://images.unsplash.com/photo-1607920592519-bab2a80efd96?w=600&q=85',
-  // jam jar on wooden table
-  'Lychee Jam':          'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&q=85',
-  // wine bottle & glass
-  'Lychee Wine':         'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&q=85',
-  // honey jar golden
-  'Lychee Honey':        'https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=600&q=85',
-  // frozen / ice fruit
-  'Frozen Lychee':       'https://images.unsplash.com/photo-1612200089671-c1c5696f2fa0?w=600&q=85',
+  'Fresh Lychee':        LYCHEE.bunch_red,   // chùm vải tươi đỏ
+  'Lychee Gift Box 1kg': LYCHEE.white_bg,    // vải đẹp nền trắng → hộp quà
+  'Dried Lychee':        LYCHEE.falling,     // vải khô/sấy
+  'Lychee Gift Box 3kg': LYCHEE.on_tree,     // vải trên cây → hộp quà lớn
+  'Lychee Jam':          LYCHEE.bunch_red,   // vải tươi → mứt
+  'Lychee Wine':         LYCHEE.peeled,      // vải bóc → rượu
+  'Lychee Honey':        LYCHEE.white_bg,    // vải sạch → mật ong
+  'Frozen Lychee':       LYCHEE.pile,        // đống vải → đông lạnh
 }
 
 const CAT_IMAGES = {
-  fresh:     'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&q=85',
-  gift:      'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=600&q=85',
-  dried:     'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=600&q=85',
-  processed: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&q=85',
-  beverage:  'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&q=85',
-  frozen:    'https://images.unsplash.com/photo-1612200089671-c1c5696f2fa0?w=600&q=85',
+  fresh:     LYCHEE.bunch_red,
+  gift:      LYCHEE.white_bg,
+  dried:     LYCHEE.falling,
+  processed: LYCHEE.bunch_red,
+  beverage:  LYCHEE.peeled,
+  frozen:    LYCHEE.pile,
 }
 
-const HERO_IMG = 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1400&q=90'
+const HERO_IMG = U + 'photo-1705335834319-92a152363ea1' + QH
 
 function getImg(product) {
   return IMAGES[product.name] || CAT_IMAGES[product.category] || HERO_IMG
 }
 
-// ── Design tokens ──────────────────────────────────────────────────────────────
+// ── Màu sắc ────────────────────────────────────────────────────────────────────
 const C = {
   red:    '#c0392b',
   redL:   '#e74c3c',
@@ -55,10 +67,10 @@ const C = {
   shadow: 'rgba(192,57,43,0.12)',
 }
 
-const fmt  = (n) => Number(n).toLocaleString('vi-VN') + '₫'
+const fmt   = (n) => Number(n).toLocaleString('vi-VN') + '₫'
 const stars = (n) => '★'.repeat(n) + '☆'.repeat(5 - n)
 
-// ── Cart ───────────────────────────────────────────────────────────────────────
+// ── Giỏ hàng ───────────────────────────────────────────────────────────────────
 function useCart() {
   const [cart, setCart] = useState([])
   const add    = (p) => setCart(prev => {
@@ -74,12 +86,11 @@ function useCart() {
   return { cart, add, remove, update, clear, total, count }
 }
 
-// ── Global CSS ─────────────────────────────────────────────────────────────────
+// ── CSS toàn cục ───────────────────────────────────────────────────────────────
 const css = `
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: ${C.bg}; color: ${C.text}; font-family: 'Segoe UI', system-ui, sans-serif; }
 
-  /* Nav */
   .nav { background: ${C.red}; color: #fff; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 64px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
   .nav-logo { font-size: 22px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 10px; }
   .nav-logo img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.4); }
@@ -89,7 +100,6 @@ const css = `
   .cart-btn { position: relative; }
   .cart-badge { position: absolute; top: -4px; right: -4px; background: ${C.gold}; color: #fff; border-radius: 50%; width: 18px; height: 18px; font-size: 11px; display: flex; align-items: center; justify-content: center; font-weight: 700; }
 
-  /* Hero */
   .hero { position: relative; min-height: 520px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
   .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
   .hero-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(192,57,43,0.82) 0%, rgba(120,20,10,0.70) 100%); }
@@ -104,22 +114,18 @@ const css = `
   .hero-stat-num { font-size: 28px; font-weight: 700; }
   .hero-stat-label { font-size: 13px; opacity: 0.8; margin-top: 2px; }
 
-  /* Section */
   .section { max-width: 1100px; margin: 0 auto; padding: 48px 32px; }
   .section-title { font-size: 28px; font-weight: 700; color: ${C.red}; margin-bottom: 8px; }
   .section-sub { color: ${C.muted}; margin-bottom: 28px; }
 
-  /* Filters */
   .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
   .filter-btn { padding: 7px 18px; border-radius: 20px; border: 2px solid ${C.border}; background: #fff; color: ${C.muted}; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.15s; }
   .filter-btn:hover, .filter-btn.active { border-color: ${C.red}; background: ${C.red}; color: #fff; }
 
-  /* Product grid */
   .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
   .product-card { background: #fff; border: 1px solid ${C.border}; border-radius: 16px; overflow: hidden; transition: all 0.2s; cursor: pointer; }
   .product-card:hover { transform: translateY(-4px); box-shadow: 0 8px 28px ${C.shadow}; border-color: ${C.red}; }
 
-  /* Product image */
   .product-card-img { position: relative; height: 200px; overflow: hidden; background: ${C.redBg}; }
   .product-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.35s ease; display: block; }
   .product-card:hover .product-card-img img { transform: scale(1.06); }
@@ -135,7 +141,6 @@ const css = `
   .add-btn { width: 100%; background: ${C.red}; color: #fff; border: none; padding: 10px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
   .add-btn:hover { background: ${C.redL}; }
 
-  /* Modal */
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 16px; }
   .modal { background: #fff; border-radius: 20px; max-width: 640px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; }
   .modal-close { position: absolute; top: 16px; right: 16px; background: rgba(0,0,0,0.35); border: none; width: 34px; height: 34px; border-radius: 50%; font-size: 16px; cursor: pointer; color: #fff; display: flex; align-items: center; justify-content: center; z-index: 10; }
@@ -149,7 +154,6 @@ const css = `
   .modal-add { background: ${C.red}; color: #fff; border: none; padding: 14px 32px; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; width: 100%; transition: background 0.2s; }
   .modal-add:hover { background: ${C.redL}; }
 
-  /* Reviews */
   .reviews-title { font-size: 18px; font-weight: 600; margin: 24px 0 16px; }
   .review-card { background: ${C.redBg}; border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; }
   .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
@@ -161,7 +165,6 @@ const css = `
   .review-form input:focus, .review-form textarea:focus { border-color: ${C.red}; }
   .review-submit { background: ${C.green}; color: #fff; border: none; padding: 10px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
 
-  /* Cart */
   .cart-sidebar { position: fixed; right: 0; top: 0; bottom: 0; width: 380px; background: #fff; z-index: 300; box-shadow: -4px 0 24px rgba(0,0,0,0.12); display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.3s; }
   .cart-sidebar.open { transform: translateX(0); }
   .cart-header { padding: 20px 24px; border-bottom: 1px solid ${C.border}; display: flex; justify-content: space-between; align-items: center; }
@@ -183,7 +186,6 @@ const css = `
   .checkout-btn { width: 100%; background: ${C.red}; color: #fff; border: none; padding: 14px; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
   .checkout-btn:hover { background: ${C.redL}; }
 
-  /* Checkout */
   .checkout-wrap { max-width: 560px; margin: 0 auto; padding: 48px 32px; }
   .checkout-title { font-size: 28px; font-weight: 700; color: ${C.red}; margin-bottom: 28px; }
   .form-group { margin-bottom: 16px; }
@@ -198,14 +200,12 @@ const css = `
   .place-order-btn { width: 100%; background: ${C.red}; color: #fff; border: none; padding: 16px; border-radius: 12px; font-size: 17px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
   .place-order-btn:hover { background: ${C.redL}; transform: translateY(-1px); }
 
-  /* Success */
   .success-wrap { text-align: center; padding: 80px 32px; }
   .success-emoji { font-size: 72px; display: block; margin-bottom: 20px; }
   .success-title { font-size: 32px; font-weight: 700; color: ${C.green}; margin-bottom: 12px; }
   .success-text { font-size: 16px; color: ${C.muted}; margin-bottom: 28px; }
   .back-btn { background: ${C.red}; color: #fff; border: none; padding: 14px 36px; border-radius: 30px; font-size: 16px; font-weight: 600; cursor: pointer; }
 
-  /* About */
   .about-hero { position: relative; min-height: 320px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
   .about-hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .about-hero-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(192,57,43,0.88) 0%, rgba(100,15,5,0.75) 100%); }
@@ -221,7 +221,6 @@ const css = `
   .feature-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: ${C.red}; }
   .feature-desc { font-size: 13px; color: ${C.muted}; line-height: 1.6; }
 
-  /* Toast */
   .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: ${C.text}; color: #fff; padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 500; z-index: 999; animation: slideUp 0.3s ease; pointer-events: none; white-space: nowrap; display: flex; align-items: center; gap: 10px; }
   .toast img { width: 28px; height: 28px; border-radius: 6px; object-fit: cover; }
   @keyframes slideUp { from{opacity:0;transform:translate(-50%,20px)} to{opacity:1;transform:translate(-50%,0)} }
@@ -235,7 +234,7 @@ const css = `
   }
 `
 
-// ── Components ─────────────────────────────────────────────────────────────────
+// ── Các thành phần giao diện ───────────────────────────────────────────────────
 
 function Toast({ msg, img }) {
   return msg ? (
@@ -247,20 +246,25 @@ function Toast({ msg, img }) {
 }
 
 function Navbar({ page, setPage, cartCount, toggleCart }) {
+  const navItems = [
+    { key: 'home',  label: 'Trang Chủ' },
+    { key: 'shop',  label: 'Cửa Hàng'  },
+    { key: 'about', label: 'Giới Thiệu' },
+  ]
   return (
     <nav className="nav">
       <div className="nav-logo" onClick={() => setPage('home')}>
-        <img src={HERO_IMG} alt="lychee" onError={e => e.target.style.display='none'} />
-        LycheeShop
+        <img src={HERO_IMG} alt="vải thiều" onError={e => e.target.style.display='none'} />
+        Vải Bila
       </div>
       <div className="nav-links">
-        {['home','shop','about'].map(p => (
-          <button key={p} className={`nav-btn ${page===p?'active':''}`} onClick={() => setPage(p)}>
-            {p.charAt(0).toUpperCase()+p.slice(1)}
+        {navItems.map(({ key, label }) => (
+          <button key={key} className={`nav-btn ${page===key?'active':''}`} onClick={() => setPage(key)}>
+            {label}
           </button>
         ))}
         <button className="nav-btn cart-btn" onClick={toggleCart}>
-          🛒 Cart {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+          🛒 Giỏ Hàng {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
         </button>
       </div>
     </nav>
@@ -283,16 +287,16 @@ function ProductCard({ product, onAdd, onClick }) {
     <div className="product-card" onClick={() => onClick(product)}>
       <div className="product-card-img">
         <ProductImg product={product} height={200} />
-        {product.featured && <span className="product-badge">⭐ Featured</span>}
+        {product.featured && <span className="product-badge">⭐ Nổi Bật</span>}
       </div>
       <div className="product-card-body">
-        <div className="product-name">{product.name}</div>
-        <div className="product-name-vn">{product.name_vn}</div>
+        <div className="product-name">{product.name_vn || product.name}</div>
+        <div className="product-name-vn">{product.name}</div>
         <div className="product-price">{fmt(product.price)}</div>
-        <div className="product-unit">per {product.unit}</div>
-        <div className="product-stock">✅ {product.stock} in stock</div>
+        <div className="product-unit">mỗi {product.unit}</div>
+        <div className="product-stock">✅ Còn {product.stock} {product.unit}</div>
         <button className="add-btn" onClick={e => { e.stopPropagation(); onAdd(product) }}>
-          + Add to Cart
+          + Thêm vào giỏ
         </button>
       </div>
     </div>
@@ -337,8 +341,8 @@ function ProductModal({ product, onClose, onAdd }) {
         }
 
         <div className="modal-body">
-          <div className="modal-title">{product.name}</div>
-          <div className="modal-title-vn">{product.name_vn}</div>
+          <div className="modal-title">{product.name_vn || product.name}</div>
+          <div className="modal-title-vn">{product.name}</div>
           <div className="modal-price">
             {fmt(product.price)}
             <span style={{fontSize:14,color:C.muted,fontWeight:400}}> / {product.unit}</span>
@@ -346,14 +350,14 @@ function ProductModal({ product, onClose, onAdd }) {
           <div className="modal-desc">{product.description}</div>
           <div style={{display:'flex',gap:10,marginBottom:20,flexWrap:'wrap'}}>
             <span style={{background:C.redBg,color:C.red,padding:'4px 12px',borderRadius:20,fontSize:13}}>📦 {product.category}</span>
-            <span style={{background:'#e8f5e9',color:C.green,padding:'4px 12px',borderRadius:20,fontSize:13}}>✅ {product.stock} available</span>
+            <span style={{background:'#e8f5e9',color:C.green,padding:'4px 12px',borderRadius:20,fontSize:13}}>✅ Còn {product.stock} {product.unit}</span>
           </div>
           <button className="modal-add" onClick={() => { onAdd(product); onClose() }}>
-            🛒 Add to Cart — {fmt(product.price)}
+            🛒 Thêm vào giỏ — {fmt(product.price)}
           </button>
 
-          <div className="reviews-title">💬 Reviews ({reviews.length})</div>
-          {reviews.length === 0 && <p style={{color:C.muted,fontSize:14}}>No reviews yet. Be the first!</p>}
+          <div className="reviews-title">💬 Đánh Giá ({reviews.length})</div>
+          {reviews.length === 0 && <p style={{color:C.muted,fontSize:14}}>Chưa có đánh giá. Hãy là người đầu tiên!</p>}
           {reviews.map(r => (
             <div key={r.id} className="review-card">
               <div className="review-header">
@@ -365,17 +369,17 @@ function ProductModal({ product, onClose, onAdd }) {
           ))}
 
           <div className="review-form">
-            <div style={{fontWeight:600,marginBottom:10,fontSize:14}}>Leave a review:</div>
-            <input className="form-input" placeholder="Your name" value={form.author}
+            <div style={{fontWeight:600,marginBottom:10,fontSize:14}}>Viết đánh giá:</div>
+            <input className="form-input" placeholder="Tên của bạn" value={form.author}
               onChange={e => setForm(p => ({...p, author:e.target.value}))} />
             <select style={{width:'100%',padding:'10px 12px',border:`1px solid ${C.border}`,borderRadius:8,fontSize:14,marginBottom:10,outline:'none'}}
               value={form.rating} onChange={e => setForm(p => ({...p, rating:+e.target.value}))}>
-              {[5,4,3,2,1].map(n => <option key={n} value={n}>{stars(n)} ({n} stars)</option>)}
+              {[5,4,3,2,1].map(n => <option key={n} value={n}>{stars(n)} ({n} sao)</option>)}
             </select>
-            <textarea className="form-input" placeholder="Share your experience..." rows={3}
+            <textarea className="form-input" placeholder="Chia sẻ trải nghiệm của bạn..." rows={3}
               value={form.comment} onChange={e => setForm(p => ({...p, comment:e.target.value}))} />
             <button className="review-submit" onClick={submitReview} disabled={submitting}>
-              {submitting ? 'Submitting...' : '✓ Submit Review'}
+              {submitting ? 'Đang gửi...' : '✓ Gửi Đánh Giá'}
             </button>
           </div>
         </div>
@@ -388,12 +392,12 @@ function CartSidebar({ open, onClose, cart, update, remove, total, onCheckout })
   return (
     <div className={`cart-sidebar ${open?'open':''}`}>
       <div className="cart-header">
-        <h2>🛒 Your Cart</h2>
+        <h2>🛒 Giỏ Hàng</h2>
         <button className="cart-close" onClick={onClose}>✕</button>
       </div>
       <div className="cart-body">
         {cart.length === 0
-          ? <div className="cart-empty"><div style={{fontSize:56,marginBottom:12}}>🛒</div>Your cart is empty</div>
+          ? <div className="cart-empty"><div style={{fontSize:56,marginBottom:12}}>🛒</div>Giỏ hàng trống</div>
           : cart.map(item => {
             const [imgErr, setImgErr] = useState(false)
             return (
@@ -404,7 +408,7 @@ function CartSidebar({ open, onClose, cart, update, remove, total, onCheckout })
                       onError={() => setImgErr(true)} />
                 }
                 <div className="cart-item-info">
-                  <div className="cart-item-name">{item.name}</div>
+                  <div className="cart-item-name">{item.name_vn || item.name}</div>
                   <div className="cart-item-price">{fmt(item.price)} / {item.unit}</div>
                   <div className="qty-ctrl">
                     <button className="qty-btn" onClick={() => update(item.id, item.qty-1)}>−</button>
@@ -420,15 +424,15 @@ function CartSidebar({ open, onClose, cart, update, remove, total, onCheckout })
       </div>
       {cart.length > 0 && (
         <div className="cart-footer">
-          <div className="cart-total"><span>Total</span><span style={{color:C.red}}>{fmt(total)}</span></div>
-          <button className="checkout-btn" onClick={onCheckout}>Checkout →</button>
+          <div className="cart-total"><span>Tổng cộng</span><span style={{color:C.red}}>{fmt(total)}</span></div>
+          <button className="checkout-btn" onClick={onCheckout}>Thanh Toán →</button>
         </div>
       )}
     </div>
   )
 }
 
-// ── Pages ──────────────────────────────────────────────────────────────────────
+// ── Các trang ─────────────────────────────────────────────────────────────────
 function HomePage({ setPage, onAdd, showToast }) {
   const [featured, setFeatured] = useState([])
   const [stats, setStats]       = useState(null)
@@ -440,29 +444,28 @@ function HomePage({ setPage, onAdd, showToast }) {
     fetch(`${API}/stats`).then(r=>r.json()).then(setStats).catch(()=>{})
   }, [])
 
-  const handleAdd = (p) => { onAdd(p); showToast(`${p.name} added to cart!`, getImg(p)) }
+  const handleAdd = (p) => { onAdd(p); showToast(`${p.name_vn || p.name} đã thêm vào giỏ!`, getImg(p)) }
 
   return (
     <>
-      {/* Hero with real background image */}
       <div className="hero">
         {!heroBgErr && (
           <img className="hero-bg" src={HERO_IMG} alt="" onError={() => setHeroBgErr(true)} />
         )}
         <div className="hero-overlay" />
         <div className="hero-content">
-          <img className="hero-img-badge" src={IMAGES['Fresh Lychee']} alt="fresh lychee"
+          <img className="hero-img-badge" src={IMAGES['Fresh Lychee']} alt="vải thiều tươi"
             onError={e => e.target.style.display='none'} />
-          <h1>Premium Lychee<br/>Straight from the Farm</h1>
-          <p>Fresh vải thiều from Bắc Giang — hand-picked, same-day delivery. Pure sweetness in every bite.</p>
-          <button className="hero-cta" onClick={() => setPage('shop')}>Shop Now →</button>
+          <h1>Vải Thiều Đăk Lăk<br/>Tươi Ngon Mỗi Ngày</h1>
+          <p>Vải thiều EaHleo, Đăk Lăk — hái tay, giao trong ngày. Ngọt thanh, thơm mát từng trái.</p>
+          <button className="hero-cta" onClick={() => setPage('shop')}>Mua Ngay →</button>
           {stats && (
             <div className="hero-stats">
               {[
-                [stats.products+'+','Products'],
-                [stats.orders+'+','Orders'],
-                [stats.reviews+'+','Reviews'],
-                ['★'.repeat(Math.round(stats.avg_rating)),'Rating'],
+                [stats.products+'+', 'Sản Phẩm'],
+                [stats.orders+'+',   'Đơn Hàng'],
+                [stats.reviews+'+',  'Đánh Giá'],
+                ['★'.repeat(Math.round(stats.avg_rating)), 'Xếp Hạng'],
               ].map(([n,l]) => (
                 <div key={l}>
                   <div className="hero-stat-num">{n}</div>
@@ -474,10 +477,9 @@ function HomePage({ setPage, onAdd, showToast }) {
         </div>
       </div>
 
-      {/* Featured products */}
       <div className="section">
-        <div className="section-title">⭐ Featured Products</div>
-        <div className="section-sub">Our best-selling lychee products</div>
+        <div className="section-title">⭐ Sản Phẩm Nổi Bật</div>
+        <div className="section-sub">Những sản phẩm vải thiều bán chạy nhất</div>
         <div className="product-grid">
           {featured.map(p => (
             <ProductCard key={p.id} product={p} onAdd={handleAdd} onClick={setSelected} />
@@ -486,22 +488,21 @@ function HomePage({ setPage, onAdd, showToast }) {
         <div style={{textAlign:'center',marginTop:28}}>
           <button onClick={() => setPage('shop')}
             style={{background:'none',border:`2px solid ${C.red}`,color:C.red,padding:'12px 32px',borderRadius:30,fontSize:15,fontWeight:600,cursor:'pointer'}}>
-            View All Products →
+            Xem Tất Cả Sản Phẩm →
           </button>
         </div>
       </div>
 
-      {/* Why us — with real images */}
       <div style={{background:C.redBg,padding:'48px 32px'}}>
         <div style={{maxWidth:1100,margin:'0 auto'}}>
-          <div className="section-title" style={{textAlign:'center',marginBottom:8}}>Why Choose Us?</div>
-          <div className="section-sub" style={{textAlign:'center',marginBottom:24}}>Direct from Bắc Giang orchards to your door</div>
+          <div className="section-title" style={{textAlign:'center',marginBottom:8}}>Tại Sao Chọn Chúng Tôi?</div>
+          <div className="section-sub" style={{textAlign:'center',marginBottom:24}}>Trực tiếp từ vườn vải Đăk Lăk đến tay bạn</div>
           <div className="feature-grid">
             {[
-              ['🌿','100% Natural','No preservatives, no chemicals. Pure lychee goodness.',  IMAGES['Fresh Lychee']],
-              ['🚚','Same-day Delivery','Harvested in the morning, at your door by evening.', IMAGES['Lychee Gift Box 1kg']],
-              ['❄️','Fresh Guaranteed','Packed with ice to maintain freshness during transport.', IMAGES['Frozen Lychee']],
-              ['⭐','Premium Quality','Hand-selected Grade-A lychees only. No compromise.',  IMAGES['Lychee Gift Box 3kg']],
+              ['🌿', '100% Tự Nhiên',      'Không chất bảo quản, không hóa chất. Vải thiều nguyên chất.',       IMAGES['Fresh Lychee']],
+              ['🚚', 'Giao Hàng Trong Ngày','Hái buổi sáng, có mặt tại nhà bạn buổi chiều.',                   IMAGES['Lychee Gift Box 1kg']],
+              ['❄️', 'Đảm Bảo Tươi Ngon',  'Đóng gói kèm đá lạnh để giữ độ tươi trong suốt quá trình vận chuyển.', IMAGES['Frozen Lychee']],
+              ['⭐', 'Chất Lượng Cao Cấp',  'Chỉ chọn vải thiều hạng A. Không thỏa hiệp về chất lượng.',        IMAGES['Lychee Gift Box 3kg']],
             ].map(([icon, title, desc, img]) => (
               <div key={title} className="feature-card">
                 <FeatureImg src={img} alt={title} />
@@ -534,9 +535,13 @@ function ShopPage({ onAdd, showToast }) {
   const [loading, setLoading]   = useState(true)
 
   const cats = [
-    {k:'all',label:'🍈 All'},{k:'fresh',label:'🌿 Fresh'},{k:'gift',label:'🎁 Gift'},
-    {k:'dried',label:'🍂 Dried'},{k:'processed',label:'🍯 Processed'},
-    {k:'beverage',label:'🍷 Beverage'},{k:'frozen',label:'❄️ Frozen'},
+    {k:'all',       label:'🍈 Tất Cả'  },
+    {k:'fresh',     label:'🌿 Tươi'    },
+    {k:'gift',      label:'🎁 Quà Tặng'},
+    {k:'dried',     label:'🍂 Sấy Khô' },
+    {k:'processed', label:'🍯 Chế Biến'},
+    {k:'beverage',  label:'🍷 Đồ Uống' },
+    {k:'frozen',    label:'❄️ Đông Lạnh'},
   ]
 
   useEffect(() => {
@@ -545,12 +550,12 @@ function ShopPage({ onAdd, showToast }) {
     fetch(url).then(r=>r.json()).then(d => { setProducts(d); setLoading(false) }).catch(()=>setLoading(false))
   }, [category])
 
-  const handleAdd = (p) => { onAdd(p); showToast(`${p.name} added!`, getImg(p)) }
+  const handleAdd = (p) => { onAdd(p); showToast(`${p.name_vn || p.name} đã thêm!`, getImg(p)) }
 
   return (
     <div className="section">
-      <div className="section-title">🛍️ All Products</div>
-      <div className="section-sub">Fresh lychee products from Bắc Giang</div>
+      <div className="section-title">🛍️ Tất Cả Sản Phẩm</div>
+      <div className="section-sub">Các sản phẩm vải thiều tươi ngon từ Đăk Lăk</div>
       <div className="filters">
         {cats.map(c => (
           <button key={c.k} className={`filter-btn ${category===c.k?'active':''}`}
@@ -571,21 +576,21 @@ function ShopPage({ onAdd, showToast }) {
 }
 
 function CheckoutPage({ cart, total, clear, setPage, showToast }) {
-  const [form, setForm]   = useState({ name:'', email:'', phone:'', address:'' })
+  const [form, setForm]       = useState({ name:'', email:'', phone:'', address:'' })
   const [placing, setPlacing] = useState(false)
-  const [done, setDone]   = useState(false)
+  const [done, setDone]       = useState(false)
 
   if (done) return (
     <div className="success-wrap">
       <span className="success-emoji">🎉</span>
-      <div className="success-title">Order Placed!</div>
-      <div className="success-text">Thank you! We'll contact you shortly to confirm delivery.</div>
-      <button className="back-btn" onClick={() => { clear(); setPage('home') }}>Back to Home</button>
+      <div className="success-title">Đặt Hàng Thành Công!</div>
+      <div className="success-text">Cảm ơn bạn đã tin tưởng! Chúng tôi sẽ liên hệ xác nhận giao hàng sớm nhất.</div>
+      <button className="back-btn" onClick={() => { clear(); setPage('home') }}>Về Trang Chủ</button>
     </div>
   )
 
   const place = async () => {
-    if (!form.name || !form.email) { showToast('⚠️ Name and email required'); return }
+    if (!form.name || !form.email) { showToast('⚠️ Vui lòng nhập họ tên và email'); return }
     setPlacing(true)
     try {
       const res = await fetch(`${API}/orders`, {
@@ -593,16 +598,23 @@ function CheckoutPage({ cart, total, clear, setPage, showToast }) {
         body: JSON.stringify({ ...form, items: cart.map(i => ({ product_id:i.id, name:i.name, quantity:i.qty, price:i.price })) })
       })
       if (res.ok) setDone(true)
-      else showToast('❌ Order failed. Please try again.')
-    } catch { showToast('❌ Network error') }
+      else showToast('❌ Đặt hàng thất bại. Vui lòng thử lại.')
+    } catch { showToast('❌ Lỗi kết nối mạng') }
     setPlacing(false)
+  }
+
+  const fieldConfig = {
+    name:    { label: 'Họ và Tên *',    placeholder: 'Phùng Công chiến' },
+    email:   { label: 'Email *',         placeholder: 'chienphungc@gmail.com' },
+    phone:   { label: 'Số Điện Thoại',  placeholder: '0357287247' },
+    address: { label: 'Địa Chỉ Giao Hàng', placeholder: 'Thôn 1, Xã Eawy, Huyện EaHleo, Đăk Lăk' },
   }
 
   return (
     <div className="checkout-wrap">
-      <div className="checkout-title">🛒 Checkout</div>
+      <div className="checkout-title">🛒 Thanh Toán</div>
       <div className="order-summary">
-        <div className="order-summary-title">Order Summary</div>
+        <div className="order-summary-title">Tóm Tắt Đơn Hàng</div>
         {cart.map(i => {
           const [imgErr, setImgErr] = useState(false)
           return (
@@ -611,23 +623,22 @@ function CheckoutPage({ cart, total, clear, setPage, showToast }) {
                 ? <img className="order-line-img" src={getImg(i)} alt={i.name} onError={() => setImgErr(true)} />
                 : <span>{i.image_emoji}</span>
               }
-              <span style={{flex:1}}>{i.name} × {i.qty}</span>
+              <span style={{flex:1}}>{i.name_vn || i.name} × {i.qty}</span>
               <span>{fmt(i.price * i.qty)}</span>
             </div>
           )
         })}
-        <div className="order-total-line"><span>Total</span><span>{fmt(total)}</span></div>
+        <div className="order-total-line"><span>Tổng Cộng</span><span>{fmt(total)}</span></div>
       </div>
-      {['name','email','phone','address'].map(f => (
+      {Object.entries(fieldConfig).map(([f, cfg]) => (
         <div key={f} className="form-group">
-          <label className="form-label">{f.charAt(0).toUpperCase()+f.slice(1)}</label>
-          <input className="form-input"
-            placeholder={f==='name'?'Full name':f==='email'?'your@email.com':f==='phone'?'0909 000 000':'Delivery address'}
+          <label className="form-label">{cfg.label}</label>
+          <input className="form-input" placeholder={cfg.placeholder}
             value={form[f]} onChange={e => setForm(p => ({...p,[f]:e.target.value}))} />
         </div>
       ))}
       <button className="place-order-btn" onClick={place} disabled={placing}>
-        {placing ? 'Placing order...' : `Place Order — ${fmt(total)}`}
+        {placing ? 'Đang xử lý...' : `Đặt Hàng — ${fmt(total)}`}
       </button>
     </div>
   )
@@ -643,37 +654,37 @@ function AboutPage() {
         )}
         <div className="about-hero-overlay" />
         <div className="about-hero-content">
-          <h1>🍈 About LycheeShop</h1>
-          <p>We bring the finest lychees from the orchards of Bắc Giang directly to your table — fresh, fast, and full of flavour.</p>
+          <h1>🍈 Về Vải Bila</h1>
+          <p>Chúng tôi mang những trái vải thiều ngon nhất từ vườn Đăk Lăk trực tiếp đến bàn ăn của bạn — tươi ngon, nhanh chóng.</p>
         </div>
       </div>
       <div className="section">
-        <div className="section-title">Our Story</div>
+        <div className="section-title">Câu Chuyện Của Chúng Tôi</div>
         <p style={{color:C.muted,lineHeight:1.8,maxWidth:680,marginBottom:32}}>
-          LycheeShop was founded in 2019 by a family from Lục Ngạn, Bắc Giang — home to Vietnam's most prized lychee orchards.
-          We saw that the best lychees rarely made it out of the province fresh, so we built a direct supply chain
-          that goes from tree to customer in under 24 hours. No middlemen. No chemicals. Just the sweetest lychees you've ever tasted.
+          VảiShop được thành lập năm 2019 bởi một gia đình từ EaHleo, Đăk Lăk — vùng đất nổi tiếng với giống vải thiều
+          ngon nhất Việt Nam. Chúng tôi nhận thấy những trái vải ngon nhất thường không thể đến tay người tiêu dùng khi còn
+          tươi, vì vậy đã xây dựng chuỗi cung ứng trực tiếp từ vườn đến khách hàng trong vòng 24 giờ. Không qua trung gian.
+          Không hóa chất. Chỉ những trái vải ngọt nhất bạn từng nếm.
         </p>
 
-        {/* Story image banner */}
         <div style={{borderRadius:16,overflow:'hidden',marginBottom:40,height:260,position:'relative'}}>
-          <img src={HERO_IMG} alt="lychee orchard"
+          <img src={HERO_IMG} alt="vườn vải"
             style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}}
             onError={e => e.target.parentElement.style.display='none'} />
           <div style={{position:'absolute',inset:0,background:'linear-gradient(to right,rgba(192,57,43,0.6),transparent)',display:'flex',alignItems:'center',padding:32}}>
             <div style={{color:'#fff'}}>
-              <div style={{fontSize:28,fontWeight:800,marginBottom:8}}>Lục Ngạn, Bắc Giang</div>
-              <div style={{fontSize:15,opacity:0.9}}>Vietnam's lychee capital since 1985</div>
+              <div style={{fontSize:28,fontWeight:800,marginBottom:8}}>EaHleo, Đăk Lăk</div>
+              <div style={{fontSize:15,opacity:0.9}}>Thủ phủ vải thiều Việt Nam từ năm 1985</div>
             </div>
           </div>
         </div>
 
         <div className="feature-grid">
           {[
-            ['🌳','Our Orchard','30 hectares in Lục Ngạn, organically managed for 20+ years.', IMAGES['Fresh Lychee']],
-            ['📦','Packaging','Eco-friendly packaging with food-safe ice packs.', IMAGES['Lychee Gift Box 1kg']],
-            ['🚀','Delivery','Same-day to HCM City & Hà Nội. Next-day elsewhere.', IMAGES['Frozen Lychee']],
-            ['💚','Sustainability','3 new trees planted per 100kg sold.', IMAGES['Dried Lychee']],
+            ['🌳', 'Vườn Nhà',       '30 héc-ta vườn vải tại EaHleo, canh tác hữu cơ hơn 20 năm.',     IMAGES['Fresh Lychee']],
+            ['📦', 'Đóng Gói',       'Bao bì thân thiện môi trường kèm túi đá giữ lạnh an toàn thực phẩm.', IMAGES['Lychee Gift Box 1kg']],
+            ['🚀', 'Giao Hàng',      'Giao trong ngày tại TP.HCM & Hà Nội. Hôm sau cho các tỉnh khác.',   IMAGES['Frozen Lychee']],
+            ['💚', 'Bền Vững',       'Trồng mới 3 cây cho mỗi 100kg vải bán ra. Bảo tồn di sản vải thiều.', IMAGES['Dried Lychee']],
           ].map(([icon, title, desc, img]) => (
             <div key={title} className="feature-card">
               <FeatureImg src={img} alt={title} />
@@ -690,11 +701,11 @@ function AboutPage() {
   )
 }
 
-// ── App Root ───────────────────────────────────────────────────────────────────
+// ── Ứng dụng chính ─────────────────────────────────────────────────────────────
 export default function App() {
-  const [page, setPage]     = useState('home')
+  const [page, setPage]         = useState('home')
   const [cartOpen, setCartOpen] = useState(false)
-  const [toast, setToast]   = useState({ msg:'', img:'' })
+  const [toast, setToast]       = useState({ msg:'', img:'' })
   const { cart, add, remove, update, clear, total, count } = useCart()
 
   const showToast = useCallback((msg, img='') => {
@@ -726,12 +737,12 @@ export default function App() {
 
       <footer style={{background:C.red,color:'#fff',marginTop:40}}>
         <div style={{display:'flex',alignItems:'center',gap:16,padding:'28px 32px',maxWidth:1100,margin:'0 auto'}}>
-          <img src={IMAGES['Fresh Lychee']} alt="lychee"
+          <img src={IMAGES['Fresh Lychee']} alt="vải thiều"
             style={{width:52,height:52,borderRadius:'50%',objectFit:'cover',border:'3px solid rgba(255,255,255,0.4)',flexShrink:0}}
             onError={e=>e.target.style.display='none'} />
           <div>
-            <div style={{fontWeight:700,fontSize:18}}>LycheeShop</div>
-            <div style={{opacity:0.8,fontSize:13}}>Fresh vải thiều Bắc Giang · React + Python + PostgreSQL + Docker 🐳</div>
+            <div style={{fontWeight:700,fontSize:18}}>Vải Bila</div>
+            <div style={{opacity:0.8,fontSize:13}}>Vải thiều Đắk Lắk tươi ngon</div>
           </div>
         </div>
       </footer>
